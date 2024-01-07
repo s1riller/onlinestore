@@ -21,7 +21,9 @@ urlpatterns = [
     path('report/CustomerBehaviorReport',CustomerBehaviorReport.as_view()),
     path('report/FinancialReportAPIView',FinancialReportAPIView.as_view()),
     path('report/SoldProducts', SoldProductsAPIView.as_view()),
-
+    path('report/ProductRating', ProductRatingAPIView.as_view()),
+    path('report/OrderSupplier/', OrderSupplierDetailView.as_view(), name='order-detail'),
+    path('products/<int:product_id>/edit-min-quantity/', EditMinQuantityView.as_view(), name='edit-min-quantity'),
     path('user_test_results/', UserTestResultView.as_view(), name='user-test-results'),
     path('usertestresults/', UserTestResultListView.as_view(), name='usertestresult-list'),
     path('medicines/', MedicineListView.as_view(), name='medicine-list'),

@@ -1,10 +1,12 @@
 # abstract_user/users/models.py
 import requests
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
+
+
 from core.models import BaseImage
 from django.conf import settings
-import core.models
 
 
 class User(AbstractUser):
@@ -68,22 +70,22 @@ def file_location(instance, filename):
     return file_path
 
 
-
-class Medicine(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     treats = models.ForeignKey(Answer, on_delete=models.CASCADE, default=None, null=True)
     img = models.ImageField(upload_to=file_location, null=False, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(CategoryProduct, on_delete=models.CASCADE, default=1)
+    quantity = models.IntegerField(default=0)
+    min_quantity = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = "Медикамент"
         verbose_name_plural = "Медикаменты"
-
-
-def __str__(self):
-    return self.name
 
 
 class UserTestResult(models.Model):
@@ -97,20 +99,16 @@ class UserTestResult(models.Model):
 class ImageProduct(BaseImage):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images')
-    medicine = models.ForeignKey(Medicine, on_delete=models.CASCADE, null=True, related_name='images')
+    medicine = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, related_name='images')
 
     def __str__(self):
         return self.title
 
 
-
-
-
-
 class Order(models.Model):
     # Ссылка на пользователя, совершившего заказ
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='orders',null=True)
-    products = models.ManyToManyField(Medicine, through='OrderItem', related_name='orders')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='orders', null=True)
+    products = models.ManyToManyField(Product, through='OrderItem', related_name='orders')
     # Контактная информация
     full_name = models.CharField(max_length=100)
     email = models.EmailField()
@@ -146,10 +144,61 @@ class Order(models.Model):
     class Meta:
         ordering = ['-created_at']
 
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_items')
-    product = models.ForeignKey(Medicine, on_delete=models.CASCADE, related_name='order_items')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='order_items')
     quantity = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f'{self.quantity} of {self.product.name}'
+
+
+class ProductRating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    rating = models.PositiveIntegerField(default=0, validators=[MinValueValidator(1), MaxValueValidator(5)])
+
+    class Meta:
+        unique_together = ('user', 'product')
+
+
+class StoreSettings(models.Model):
+    store_name = models.CharField(max_length=255, verbose_name='Название магазина')
+    store_logo = models.ImageField(upload_to='store_logos/', blank=True, null=True, verbose_name='Логотип магазина')
+    currency = models.CharField(max_length=3, default='USD', verbose_name='Валюта')
+    tax_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0.00, verbose_name='Налоговая ставка')
+    shipping_fee = models.DecimalField(max_digits=7, decimal_places=2, default=0.00, verbose_name='Стоимость доставки')
+    payment_methods = models.ManyToManyField('PaymentMethod', blank=True, verbose_name='Методы оплаты')
+    email_notifications = models.BooleanField(default=True, verbose_name='Уведомления по электронной почте')
+
+    class Meta:
+        verbose_name = 'Настройки магазина'
+        verbose_name_plural = 'Настройки магазина'
+
+    def __str__(self):
+        return self.store_name
+
+
+class PaymentMethod(models.Model):
+    name = models.CharField(max_length=255, verbose_name='Название метода оплаты')
+    description = models.TextField(blank=True, null=True, verbose_name='Описание метода оплаты')
+    active = models.BooleanField(default=True, verbose_name='Активен')
+
+    class Meta:
+        verbose_name = 'Метод оплаты'
+        verbose_name_plural = 'Методы оплаты'
+
+    def __str__(self):
+        return self.name
+
+
+class SupplierOrder(models.Model):
+    products = models.ManyToManyField(Product, through='SupplierOrderItem')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class SupplierOrderItem(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(SupplierOrder, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField()

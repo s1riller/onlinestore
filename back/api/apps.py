@@ -1,9 +1,8 @@
 from django.apps import AppConfig
 
-
 class ApiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'api'
 
     def ready(self):
-        import api.scheduler  # Импортируем наш файл scheduler.py
+        import api.signals  # Импортируем файл signals.py, где определены сигналы

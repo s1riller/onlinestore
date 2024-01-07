@@ -1,18 +1,21 @@
 from datetime import datetime
 
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from rest_framework import generics, parsers, permissions
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import SkinType, Question, Answer, UserTestResult, Medicine
+from .models import SkinType, Question, Answer, UserTestResult, Product, ProductRating, SupplierOrder
 from django.db.models import Sum, Count, Avg
 from .serializers import *
 import json
 import base64
 import io
 from django.core.files.base import ContentFile
+
+from .serializers import OrderSerializer
 
 
 # Create your views here.
@@ -97,7 +100,7 @@ class MedicineListView(generics.ListAPIView):
     permission_classes = []
 
     def get_queryset(self):
-        medicines = Medicine.objects.all()
+        medicines = Product.objects.all()
         return medicines
 
     def post(self, request, *args, **kwargs):
@@ -229,7 +232,7 @@ class OrderView(generics.ListCreateAPIView):
             for item_data in order_items_data:
                 product_id = item_data.get('product')
                 quantity = item_data.get('quantity')
-                product = Medicine.objects.get(pk=product_id)
+                product = Product.objects.get(pk=product_id)
                 OrderItem.objects.create(order=order, product=product, quantity=quantity)
 
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -439,11 +442,68 @@ class UsersReportAPIView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-
-
 class SoldProductsAPIView(APIView):
     def get(self, request, format=None):
         sold_items = OrderItem.objects.all()
         # Pass 'request' in the serializer context
         serializer = SoldProductSerializer(sold_items, many=True, context={'request': request})
         return Response(serializer.data)
+
+
+class ProductRatingAPIView(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    def get(self, request):
+        user_id = request.query_params.get('user_id')
+        if user_id is not None:
+            data = ProductRating.objects.filter(user_id=user_id)
+        else:
+            data = ProductRating.objects.all()
+
+        serializer = ProductRatingSerializer(data, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = ProductRatingSerializer(data=request.data)
+        user_id = request.data.get('user')
+        product_id = request.data.get('product')
+        rating = request.data.get('rate')
+        try:
+            product_rating, created = ProductRating.objects.update_or_create(
+                user_id=user_id,
+                product_id=product_id,
+                defaults={'rating': rating}
+            )
+            return Response(status=200)  # Верните подходящий ответ
+        except ObjectDoesNotExist:
+            return Response({...})  # Обработка исключения, если пользователь или продукт не существует
+
+
+class OrderSupplierDetailView(generics.RetrieveAPIView):
+    queryset = SupplierOrder.objects.all()
+    serializer_class = OrderSupplierSerializer
+    permission_classes = [permissions.IsAuthenticated]  # Установите права доступа по своему усмотрению
+
+    def get(self, request):
+        data = Order.objects.all()
+        serializer = OrderSerializer()
+        return Response(serializer.data)
+
+
+class EditMinQuantityView(APIView):
+    permission_classes = [permissions.IsAuthenticated]  # Установите права доступа по своему усмотрению
+
+    def put(self, request, product_id):
+        try:
+            product = Product.objects.get(pk=product_id)
+        except Product.DoesNotExist:
+            return Response({'error': 'Товар не найден'}, status=status.HTTP_404_NOT_FOUND)
+
+        new_min_quantity = request.data.get('min_quantity')
+        if new_min_quantity is not None:
+            product.min_quantity = new_min_quantity
+            product.save()
+            return Response({'success': 'Минимальный остаток обновлен'}, status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'Новый минимальный остаток не указан'}, status=status.HTTP_400_BAD_REQUEST)

@@ -1,7 +1,8 @@
 from djoser.serializers import UserSerializer
 from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers, generics
-from .models import User, SkinType, Answer, UserTestResult, Medicine, CategoryProduct, ImageProduct, Order, OrderItem
+from .models import User, SkinType, Answer, UserTestResult, Product, CategoryProduct, ImageProduct, Order, OrderItem, \
+    ProductRating, SupplierOrder
 from djoser.serializers import UserCreateSerializer
 from django.contrib.auth import get_user_model
 from versatileimagefield.serializers import VersatileImageFieldSerializer
@@ -96,7 +97,7 @@ class MedicineSerializer(serializers.ModelSerializer):
     img = Base64ImageField(required=False)
 
     class Meta:
-        model = Medicine
+        model = Product
         fields = ['id', 'name', 'description', 'treats', 'price', 'category', 'img']
 
 
@@ -162,3 +163,15 @@ class SoldProductSerializer(serializers.ModelSerializer):
         if obj.product.img and hasattr(obj.product.img, 'url'):
             return request.build_absolute_uri(obj.product.img.url)
         return None
+
+
+class ProductRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductRating
+        fields = '__all__'
+
+
+class OrderSupplierSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SupplierOrder
+        fields = '__all__'

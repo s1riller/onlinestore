@@ -1,11 +1,11 @@
 # resources.py
 from import_export import resources
-from api.models import Medicine
+from api.models import Product
 
 
-class MedicineResource(resources.ModelResource):
+class ProductResource(resources.ModelResource):
     class Meta:
-        model = Medicine
+        model = Product
         import_id_fields = ('description',)
         fields = ('name', 'description', 'img')
         # skip_unchanged = True
