@@ -60,6 +60,7 @@
                   <button class="btn add-to-cart" @click="addToCart(medicine)">
                     <span class="material-icons">shopping_cart</span>
                   </button>
+                  <Rating v-model="medicine.rate" :cancel="false" @update:modelValue="rateProduct(medicine)" />
                 </div>
               </div>
             </div>
@@ -111,6 +112,7 @@ export default {
       imageUrl: '',
       value: null,
       ratings: [],
+      rate:null,
     };
   },
 
@@ -211,6 +213,20 @@ export default {
     async fetchRandomImage() {
       // Code to fetch a random image
     },
+    ...mapGetters(['getUser']),
+    async rateProduct(medicine) {
+      try {
+        const response = await axios.post('http://127.0.0.1:8000/api/report/ProductRating', {
+          user: this.getUser().id,
+          product: medicine.id,
+          rate: medicine.rate,
+        });
+
+        console.log('Rating updated successfully:', response.data);
+      } catch (error) {
+        console.error('Error updating rating:', error);
+      }
+    }
   },
   mounted() {
     this.fetchRandomImage();
@@ -269,4 +285,7 @@ export default {
 .material-icons {
   vertical-align: middle;
 }
+
+
+
 </style>

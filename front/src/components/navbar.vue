@@ -78,7 +78,6 @@
             </li><!-- / Cart -->
 
 
-
             <a v-if="!userToken==''" data-hover="dropdown" data-toggle="dropdown"
                style="  text-decoration: none; color: inherit;  background-color: transparent;"
                @click="$router.push({name:'Cart'})">
@@ -129,17 +128,15 @@ shopping_cart
     <nav class="navbar navigation">
       <div class="container">
         <!--          <a class="navbar-brand" @click="$router.push({ name: 'Home' })">Дом</a>-->
-        <a class="navbar-brand" @click="$router.push({ name: 'Shop' })"><span class="material-icons">
-shopping_cart
-</span> Продукция</a>
+        <a class="navbar-brand" @click="$router.push({ name: 'Shop' })"><span class="material-icons">shopping_cart</span> Продукция</a>
         <a v-if="userToken==='' || userToken==='null'" class="navbar-brand" @click="$router.push({ name: 'Test' })"></a>
         <a v-if="userToken" class="navbar-brand" @click="$router.push({ name: 'Test' })"><span class="material-icons">
 quiz
 </span> Тестирование</a>
 
-        <a class="navbar-brand"
-           @click="$router.push({ name: 'Reports' })"
-           v-if="this.is_admin()">
+        <a v-if="this.is_admin()"
+           class="navbar-brand"
+           @click="$router.push({ name: 'Reports' })">
           <span class="material-icons">summarize</span>
           Отчеты
         </a>
@@ -287,7 +284,7 @@ quiz
 </template>
 
 <script>
-import {mapGetters,mapActions} from "vuex";
+import {mapActions, mapGetters} from "vuex";
 
 export default {
   name: 'NavBar',
@@ -303,7 +300,6 @@ export default {
     ...mapActions(['fetchUserData']),
 
 
-
   },
   created() {
     this.fetchUserData();
@@ -311,7 +307,6 @@ export default {
 
 
   },
-
 
 
 };

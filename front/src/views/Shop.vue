@@ -29,6 +29,7 @@
 favorite_border
 </span>
 
+
         <button class="btn" @click="addToCart(selectedProduct)">
     <span class="material-icons">
       shopping_cart
@@ -48,35 +49,46 @@ favorite_border
         <div v-for="product in products" :key="product.id" class="col-md-4">
           <div class="product-item">
             <div class="product-thumb">
-              <img :src="product.img" alt="Потеряли изобажение товара" class="img-responsive"/>
+              <img :src="product.img" alt="Потеряли изображение товара" class="img-responsive" />
               <div class="preview-meta">
                 <ul>
                   <li @click="showModal(product)">
-                    <span class="material-icons">
-lightbulb
-</span>
+                    <span class="material-icons">lightbulb</span>
                   </li>
                   <li>
-                    <span class="material-icons">
-favorite_border
-</span>
+                    <span class="material-icons">favorite_border</span>
                   </li>
                   <li>
-
-        <button class="btn" @click="addToCart(product)">
-        <span class="material-icons">
-shopping_cart
-</span>
+                    <button class="btn" @click="addToCart(product)">
+                      <span class="material-icons">shopping_cart</span>
                     </button>
+                  </li>
+                  <li>
+                    <!-- Здесь добавлены звезды для оценки -->
+                    <div class="rating">
+                      <!-- Вывод звезд в зависимости от значения rating -->
+                      <span
+                          v-for="star in 5"
+                          :key="star"
+
+                          @click="rateProduct(star, product)"
+                          class="material-icons"
+                          :class="{ 'rated': star <= product.rating }"
+                      >
+              star
+            </span>
+                    </div>
                   </li>
                 </ul>
               </div>
             </div>
+
             <div class="product-content">
               <h4><a href="#">{{ product.name }}</a></h4>
               <p class="price">${{ product.price }}</p>
             </div>
           </div>
+
         </div>
 
         <!-- ... другие элементы ... -->
@@ -113,6 +125,7 @@ export default {
       selectedProduct: null,
       showAddToCartNotification:false,
       addedProduct: null,
+      ratedProducts: [],
     };
   },
   created() {
@@ -157,6 +170,12 @@ export default {
         console.error('Ошибка при добавлении в корзину:', error);
       }
     },
+
+    rateProduct(rating, product) {
+      this.ratedProducts.push({ rating, product });
+      // В этом примере мы обновим рейтинг продукта на клиентской стороне:
+      product.rating = rating;
+    },
   }
 };
 </script>
@@ -174,12 +193,6 @@ export default {
   align-items: center;
 }
 
-/* Дополнительные стили для контента внутри popup, если необходимо */
-.overlay-popup > .position-relative {
-  /* Добавьте стили для контента, чтобы он был выровнен по центру popup */
-}
-
-/* Стили для изображения по умолчанию */
 .product-thumb img {
   transition: transform 0.2s; /* Добавляем анимацию */
 }
@@ -188,6 +201,7 @@ export default {
 .product-thumb img:hover {
   transform: scale(1.1); /* Увеличиваем изображение на 10% */
 }
+
 .notification {
   /* Стили для уведомления */
   position: fixed;
