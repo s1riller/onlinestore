@@ -14,7 +14,7 @@ import Axios from 'axios'
 import 'material-design-icons-iconfont'
 
 
-export const url_server ='127.0.0.1'
+export const url_server ='s1riller.ru'
 const app = createApp(App)
 
 components.forEach(component => {
