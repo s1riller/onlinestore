@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import {url_server} from "@/main";
 export default {
   data() {
     return {

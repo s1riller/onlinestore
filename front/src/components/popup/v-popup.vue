@@ -1,4 +1,5 @@
 <script>
+import {url_server} from "@/main";
 export default {
   name: "v-popup",
   props: {

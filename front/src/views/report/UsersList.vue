@@ -66,7 +66,7 @@
 import axios from "axios";
 import {differenceInCalendarYears, formatDistanceToNow, parseISO} from 'date-fns';
 import {ru} from 'date-fns/locale'; // Импортируйте локаль, если хотите локализовать вывод
-
+import {url_server} from "@/main"
 export default {
   data() {
     return {
@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     fetchUsers() {
-      axios.get('http://127.0.0.1:8000/api/report/Users') // Замените URL_API_ПОЛЬЗОВАТЕЛЕЙ на фактический URL вашего API
+      axios.get(`http://${url_server}:8000/api/report/Users`) // Замените URL_API_ПОЛЬЗОВАТЕЛЕЙ на фактический URL вашего API
           .then(response => {
             this.isLoading = false;
             this.users = [...response.data];

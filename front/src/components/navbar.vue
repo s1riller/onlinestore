@@ -285,6 +285,7 @@ quiz
 
 <script>
 import {mapActions, mapGetters} from "vuex";
+import {url_server} from "@/main";
 
 export default {
   name: 'NavBar',

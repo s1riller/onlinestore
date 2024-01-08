@@ -29,6 +29,7 @@
 <script>
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
+import {url_server} from "@/main";
 Chart.register(...registerables);
 
 export default {
@@ -39,7 +40,7 @@ export default {
   },
   methods: {
     fetchAverageOrderValuePerUser() {
-      axios.get('http://127.0.0.1:8000/api/report/AverageOrderValuePerUser', {
+      axios.get(`http://${url_server}:8000/api/report/AverageOrderValuePerUser`, {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }

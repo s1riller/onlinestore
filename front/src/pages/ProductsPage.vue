@@ -118,7 +118,7 @@
 
 <script>
 import {mapGetters} from "vuex";
-
+import {url_server} from "@/main";
 export default {
 
   computed: {

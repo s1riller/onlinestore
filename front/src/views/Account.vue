@@ -97,7 +97,7 @@ import axios from 'axios';
 import Modal from "@/components/Modal.vue";
 import StarRating from "@/components/StarRating.vue";
 import Rating from 'primevue/rating';
-
+import {url_server} from "@/main";
 export default {
   name: 'CombinedPage',
   components: {
@@ -150,7 +150,7 @@ export default {
     async handleRatingSelected(result, rating, index) {
       // Отправить оценку на сервер для блока с индексом 'index'
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/rate_recomendation/', {
+        const response = await axios.post(`http://${url_server}:8000/api/rate_recomendation/`, {
           testId: result.id,
           rating: this.ratings[result.id],
         }, {
@@ -216,7 +216,7 @@ export default {
     ...mapGetters(['getUser']),
     async rateProduct(medicine) {
       try {
-        const response = await axios.post('http://127.0.0.1:8000/api/report/ProductRating', {
+        const response = await axios.post(`http://${url_server}:8000/api/report/ProductRating`, {
           user: this.getUser().id,
           product: medicine.id,
           rate: medicine.rate,

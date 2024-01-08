@@ -53,7 +53,7 @@
 <script>
 import { defineComponent } from 'vue';
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default defineComponent({
   name: 'FifthTable',
   data() {
@@ -86,7 +86,7 @@ export default defineComponent({
     },
     fetchSoldProducts() {
       axios
-          .get('http://127.0.0.1:8000/api/report/SoldProducts', {
+          .get(`http://${url_server}:8000/api/report/SoldProducts`, {
             headers: {
               Authorization: `Token ${localStorage.getItem('token')}`,
             },

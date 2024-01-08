@@ -1,5 +1,6 @@
 import Vuex from 'vuex';
 import typeFace from "@/store/modules/typeFace"; // Импортируйте Vue
+import {url_server} from "@/main";
 import Signup from "@/store/modules/Signup";
 import ProfileModule from "@/store/modules/ProfileModule"
 import GetData from "@/store/modules/GetData"

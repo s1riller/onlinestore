@@ -194,6 +194,7 @@
 </template>
 
 <script>
+import {url_server} from "@/main";
 import { mapGetters } from 'vuex'
 export default {
   name: 'HomePage', // Используйте многословное имя для компонента

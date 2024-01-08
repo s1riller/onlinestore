@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default {
 
 
@@ -50,7 +50,7 @@ export default {
         },
         async fetchUserData({ commit }) {
             try {
-                const response = await axios.get('http://127.0.0.1:8000/api/profile', {
+                const response = await axios.get(`http://${url_server}/api/profile`, {
                     headers: {
                         'Authorization': `Token ${localStorage.getItem('token')}`
                     }

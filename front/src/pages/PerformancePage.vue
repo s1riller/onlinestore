@@ -67,6 +67,7 @@ import { mapGetters } from 'vuex';
 import "@/static/discord.css";
 import axios from 'axios';
 import Modal from "@/components/Modal.vue";
+import {url_server} from "@/main";
 function decodeUnicodeEscapes(text) {
   return text.replace(/\\u[\dA-Fa-f]{4}/g, function(match) {
     return String.fromCharCode(parseInt(match.substr(2), 16));

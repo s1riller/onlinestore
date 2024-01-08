@@ -49,7 +49,7 @@
 
 <script>
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default {
   name: "LoginView",
   data() {
@@ -67,7 +67,7 @@ export default {
 
         // Выполнение запроса на регистрацию
         const response = await axios.post(
-            'http://127.0.0.1:8000/api/registeruser/',
+            `http://${url_server}:8000/api/registeruser/`,
             {
               username: this.username,
               password: this.password,

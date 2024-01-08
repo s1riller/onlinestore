@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios';
-
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     fetchFinancialReport() {
-      axios.get('http://127.0.0.1:8000/api/report/FinancialReportAPIView',{
+      axios.get(`http://${url_server}:8000/api/report/FinancialReportAPIView`,{
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }

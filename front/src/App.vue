@@ -44,7 +44,7 @@ import vPopup from "@/components/popup/v-popup.vue"
 import {mapGetters, mapActions, mapState, mapMutations} from 'vuex'
 import {} from 'vuex'
 import axios from "axios";
-
+import url_server from "@/main"
 export default {
   name: "app",
   components: {
@@ -94,7 +94,7 @@ export default {
       this.isInfoPopupVisible = false
       // console.log(,this.userData)
       try {
-        const response = await axios.put('http://127.0.0.1:8000/api/profile', {
+        const response = await axios.put(`http://${url_server}/api/profile`, {
           "first_name": this.first_name,
           "last_name": this.last_name,
           "birth_date": this.userData.formattedDate,

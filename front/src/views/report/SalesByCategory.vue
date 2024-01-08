@@ -34,7 +34,7 @@
 import axios from 'axios';
 import { Chart, registerables } from 'chart.js';
 Chart.register(...registerables);
-
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     fetchSalesReportByCategory() {
-      axios.get('http://127.0.0.1:8000/api/report/SalesReportByCategory', {
+      axios.get(`http://${url_server}:8000/api/report/SalesReportByCategory`, {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }

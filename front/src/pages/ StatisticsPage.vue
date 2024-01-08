@@ -100,6 +100,7 @@
 <script>
 import "@/static/discord.css";
 import Modal from "@/components/Modal.vue";
+import {url_server} from "@/main";
 export default {
   data() {
     return {

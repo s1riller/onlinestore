@@ -88,7 +88,7 @@
 <script>
 import axios from "axios";
 import VUploadImage from "@/components/v-upload-image.vue";
-
+import {url_server} from "@/main";
 export default {
 
   components: {VUploadImage},
@@ -115,7 +115,7 @@ export default {
     async fetchAnswers() {
       try {
         this.loading = true; // Устанавливаем флаг загрузки в true перед запросом
-        const response = await axios.get('http://127.0.0.1:8000/api/answers/');
+        const response = await axios.get(`http://${url_server}:8000/api/answers/`);
         this.answers = response.data;
       } catch (error) {
         console.error('Ошибка при получении списка вопросов:', error);
@@ -126,7 +126,7 @@ export default {
     async fetchCategory() {
       try {
         this.loading = true; // Устанавливаем флаг загрузки в true перед запросом
-        const response = await axios.get('http://127.0.0.1:8000/api/categories/');
+        const response = await axios.get(`http://${url_server}:8000/api/categories/`);
         this.categories = response.data;
       } catch (error) {
         console.error('Ошибка при получении списка категорий:', error);
@@ -154,7 +154,7 @@ export default {
         }
 
         try {
-          let response = await axios.post('http://127.0.0.1:8000/api/categories/', {
+          let response = await axios.post(`http://${url_server}:8000/api/categories/`, {
             name: this.newCategoryName
           });
 
@@ -199,7 +199,7 @@ export default {
       formData.append('category', this.product.category.id);
       formData.append('img', this.product.img); // Добавляем base64 строку изображения
 
-      axios.post('http://127.0.0.1:8000/api/medicines/', formData,
+      axios.post(`http://${url_server}:8000/api/medicines/`, formData,
           {
             headers: {
               'Authorization': `Token ${localStorage.getItem('token')}`,

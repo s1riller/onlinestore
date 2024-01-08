@@ -111,7 +111,7 @@ favorite_border
 import axios from 'axios';
 import Modal from "@/components/Modal.vue";
 import {mapGetters} from "vuex";
-
+import {url_server} from "@/main";
 export default {
   name: 'ShopPage',
   components: {
@@ -144,7 +144,7 @@ export default {
     async fetchProducts() {
       try {
         this.loading = true; // Устанавливаем флаг загрузки в true перед запросом
-        const response = await axios.get('http://127.0.0.1:8000/api/medicines/');
+        const response = await axios.get(`http://${url_server}:8000/api/medicines/`);
         this.products = response.data;
       } catch (error) {
         console.error('Ошибка при получении списка продуктов:', error);

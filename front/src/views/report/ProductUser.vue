@@ -1,7 +1,7 @@
 <script>
 import axios from "axios";
 import user from "@/store/modules/User";
-
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -39,7 +39,7 @@ export default {
     },
     async fetchUserData(){
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/report/Users', {
+        const response = await axios.get(`http://${url_server}:8000/api/report/Users`, {
               headers: {
                 'Authorization': `Token ${localStorage.getItem('token')}`
               }

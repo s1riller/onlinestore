@@ -52,7 +52,7 @@
 
 <script>
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -84,7 +84,7 @@ export default {
       return `${year}-${month}-${day}`
     },
     fetchReportStartEndDate() {
-      axios.get('http://127.0.0.1:8000/api/report/Summary',
+      axios.get(`http://${url_server}:8000/api/report/Summary`,
           {
             headers: {
               'Authorization': `Token ${localStorage.getItem('token')}`
@@ -101,7 +101,7 @@ export default {
     fetchReportData() {
       // Здесь делайте запрос к серверу, чтобы получить данные отчета
 
-      axios.post('http://127.0.0.1:8000/api/report/Summary', {
+      axios.post(`http://${url_server}:8000/api/report/Summary`, {
         start_date: this.formatDate(this.start_date),
         end_date: this.formatDate(this.end_date)
       }, {

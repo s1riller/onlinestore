@@ -46,7 +46,7 @@
 
 <script>
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default {
   name: "LoginView",
   data() {
@@ -59,7 +59,7 @@ export default {
     async login() {
       try {
         const response = await axios.post(
-            'http://127.0.0.1:8000/auth/token/login',
+            `http://${url_server}:8000/auth/token/login`,
             {
               username: this.username,
               password: this.password,

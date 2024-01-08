@@ -62,7 +62,7 @@
 import "@/static/discord.css";
 import { mapGetters } from 'vuex';
 import axios from "axios";
-
+import {url_server} from "@/main";
 const questionsData = {
   "questions": [
     {

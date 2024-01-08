@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from "axios";
-
+import {url_server} from "@/main";
 
 export default ({
     state: {
@@ -35,7 +35,7 @@ export default ({
         async fetchUserTestResults(context) {
             try {
                 // Запрос на получение ID пользователя
-                const responseProfile = await axios.get('http://127.0.0.1:8000/api/profile', {
+                const responseProfile = await axios.get(`http://${url_server}:8000/api/profile`, {
                     headers: {
                         'Authorization': `Token ${localStorage.getItem('token')}`,
                     },
@@ -46,7 +46,7 @@ export default ({
                 }
 
                 // Запрос на получение всех результатов
-                const responseResults = await axios.get('http://127.0.0.1:8000/api/usertestresults/', {
+                const responseResults = await axios.get(`http://${url_server}:8000/api/usertestresults/`, {
                     headers: {
                         'Authorization': `Token ${localStorage.getItem('token')}`,
                     }
@@ -62,7 +62,7 @@ export default ({
         },
         async updateRateOnServer(context, { resultId, rate }) {
             try {
-                const response = await axios.post('http://127.0.0.1:8000/api/rate_recomendation/', {
+                const response = await axios.post(`http://${url_server}:8000/api/rate_recomendation/`, {
                     testId:resultId,
                     rating:rate
                 }, {

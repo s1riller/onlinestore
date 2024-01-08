@@ -38,7 +38,7 @@
 <script>
 import "@/static/discord.css";
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -81,7 +81,7 @@ export default {
 
     async getQuestions() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/questions/', {
+        const response = await axios.get(`http://${url_server}:8000/api/questions/`, {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`,
           },
@@ -96,7 +96,7 @@ export default {
         this.loading = true; // Установите loading в true перед началом загрузки
 
         // Запрос, чтобы получить id пользователя
-        const profileResponse = await axios.get('http://127.0.0.1:8000/api/profile', {
+        const profileResponse = await axios.get(`http://${url_server}:8000/api/profile`, {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`
           }
@@ -117,7 +117,7 @@ export default {
           time: new Date().toISOString().slice(11, 23),
         };
 
-        const response = await axios.post('http://127.0.0.1:8000/api/user_test_results/', results, {
+        const response = await axios.post(`http://${url_server}:8000/api/user_test_results/`, results, {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`
           }

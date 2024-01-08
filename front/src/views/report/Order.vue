@@ -9,6 +9,7 @@
 </template>
 
 <script>
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -23,7 +24,7 @@ export default {
   methods: {
     loadOrder(orderId) {
       // Здесь вы можете использовать Axios или другую библиотеку для выполнения GET-запроса к API Django
-      axios.get(`http://127.0.0.1:8000/api/orders/`,
+      axios.get(`http://${url_server}:8000/api/orders/`,
           {
             headers: {
               'Authorization': `Token ${localStorage.getItem('token')}`

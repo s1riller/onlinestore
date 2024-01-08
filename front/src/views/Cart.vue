@@ -178,7 +178,7 @@
 <script>
 import {mapGetters,mapActions} from "vuex";
 import axios from "axios";
-
+import {url_server} from "@/main";
 export default {
 
   data() {
@@ -205,7 +205,7 @@ export default {
     ...mapActions(['clearCart']),
     async fetchUserId() {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/profile', {
+        const response = await axios.get(`http://${url_server}:8000/api/profile`, {
           headers: {
             'Authorization': `Token ${localStorage.getItem('token')}`
           }
@@ -251,7 +251,7 @@ export default {
 
       };
 
-      axios.post('http://127.0.0.1:8000/api/order/', orderData)
+      axios.post(`http://${url_server}/api/order/`, orderData)
           .then(response => {
             // Обработка успешного ответа
             console.log('Order submitted:', response.data);

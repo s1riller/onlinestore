@@ -46,7 +46,7 @@
 <script>
 import axios from 'axios';
 import { Chart } from 'chart.js';
-
+import {url_server} from "@/main";
 export default {
   data() {
     return {
@@ -67,7 +67,7 @@ export default {
       }
     },
     fetchUserTestResultsReport() {
-      axios.get('http://127.0.0.1:8000/api/report/UserTestResultsReport', {
+      axios.get(`http://${url_server}:8000/api/report/UserTestResultsReport`, {
         headers: {
           'Authorization': `Token ${localStorage.getItem('token')}`
         }

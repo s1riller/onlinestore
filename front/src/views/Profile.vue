@@ -100,6 +100,7 @@
 import "@/static/discord.css";
 import Modal from "@/components/Modal.vue";
 import { mapGetters } from 'vuex'
+import {url_server} from "@/main";
 export default {
   data() {
     return {

@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import {url_server} from "@/main";
 export const postModule = {
   state: () => ({
     posts: [],

@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import {url_server} from "@/main";
 export default {
   name: 'v-upload-image',
   data() {
