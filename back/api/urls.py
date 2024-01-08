@@ -22,6 +22,8 @@ urlpatterns = [
     path('report/FinancialReportAPIView',FinancialReportAPIView.as_view()),
     path('report/SoldProducts', SoldProductsAPIView.as_view()),
     path('report/ProductRating', ProductRatingAPIView.as_view()),
+    path('report/User/<int:user_id>/rated-products/', UserRatedProductsView.as_view(), name='user-rated-products'),
+
     path('report/OrderSupplier/', OrderSupplierDetailView.as_view(), name='order-detail'),
     path('products/<int:product_id>/edit-min-quantity/', EditMinQuantityView.as_view(), name='edit-min-quantity'),
     path('user_test_results/', UserTestResultView.as_view(), name='user-test-results'),

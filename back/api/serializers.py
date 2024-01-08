@@ -166,12 +166,16 @@ class SoldProductSerializer(serializers.ModelSerializer):
 
 
 class ProductRatingSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    product = MedicineSerializer(read_only=True)
+
     class Meta:
         model = ProductRating
-        fields = '__all__'
-
+        fields = ['user', 'product', 'rating']
 
 class OrderSupplierSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupplierOrder
         fields = '__all__'
+
+

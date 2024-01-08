@@ -16,7 +16,7 @@ services:
       - 8000:8000
     # команда при старте контейнера
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py runserver 127.0.0.1:8000"
     # Для статики мы подключаем два volume (чтобы при перезапуске наши данные не пропадали)), создадим их ниже.
     volumes:
       - django_static_volume:/usr/src/app/static

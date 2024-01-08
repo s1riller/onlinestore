@@ -5,7 +5,7 @@ import json
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-from api.models import Medicine, UserTestResult
+from api.models import Product, UserTestResult
 
 
 class Command(BaseCommand):
@@ -22,7 +22,7 @@ class Command(BaseCommand):
             for question, answers in answer_texts.items():
                 answers_text = ', '.join(filter(None, answers))
 
-                related_medicines = Medicine.objects.filter(treats__text__in=answers)
+                related_medicines = Product.objects.filter(treats__text__in=answers)
 
                 recommended_medicines.extend(related_medicines)
 

@@ -477,7 +477,7 @@ class ProductRatingAPIView(APIView):
             )
             return Response(status=200)  # Верните подходящий ответ
         except ObjectDoesNotExist:
-            return Response({...})  # Обработка исключения, если пользователь или продукт не существует
+            return Response(status=404)  # Обработка исключения, если пользователь или продукт не существует
 
 
 class OrderSupplierDetailView(generics.RetrieveAPIView):
@@ -507,3 +507,13 @@ class EditMinQuantityView(APIView):
             return Response({'success': 'Минимальный остаток обновлен'}, status=status.HTTP_200_OK)
         else:
             return Response({'error': 'Новый минимальный остаток не указан'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserRatedProductsView(APIView):
+    def get(self, request, user_id):
+        try:
+            user_ratings = ProductRating.objects.filter(user=user_id)
+            serializer = ProductRatingSerializer(user_ratings, many=True)
+            return Response(serializer.data)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)

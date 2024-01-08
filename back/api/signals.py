@@ -1,6 +1,7 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Product, SupplierOrder, SupplierOrderItem, OrderItem
+from .models import Product, SupplierOrder, SupplierOrderItem, OrderItem, UserTestResult
+from django.core.management import call_command
 
 
 @receiver(post_save, sender=Product)
@@ -18,3 +19,9 @@ def update_product_quantity(sender, instance, created, **kwargs):
         # Если объект OrderItem был только что создан (т.е. товар был добавлен в заказ), уменьшаем количество товара
         instance.product.quantity -= instance.quantity
         instance.product.save()
+
+
+@receiver(post_save, sender=UserTestResult)
+def user_test_result_created(sender, instance, created, **kwargs):
+    if created:
+        call_command('take_med')
