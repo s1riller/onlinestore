@@ -22,6 +22,7 @@ import UserTestResultsReport from "@/views/report/UserTestResultsReport.vue"
 import UsersList from "@/views/report/UsersList.vue";
 import ListSoldProducts from "@/views/report/ListSoldProducts.vue";
 import Order from "@/views/report/Order.vue";
+import ProductUser from "@/views/report/ProductUser.vue";
 const routes = [
     {path: "/", component: Home, name: 'Home'},
     {path: "/Test", component: Testing, name: 'Test'},
@@ -44,7 +45,8 @@ const routes = [
     {path: '/UserTestResultsReport', component: UserTestResultsReport, name: 'UserTestResultsReport'},
     {path: '/UsersList', component: UsersList, name: 'UsersList'},
     {path: '/ListSoldProduct', component: ListSoldProducts, name: 'ListSoldProduct'},
-    {path: '/OrderProduct', component: Order, name: 'Order'}
+    {path: '/OrderProduct', component: Order, name: 'Order'},
+    {path: '/ProductUser/:id', component: ProductUser, name:'ProductUser'},
 
 ];
 

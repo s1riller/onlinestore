@@ -71,15 +71,17 @@
         </div>
       </div>
 
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-body">
-            <button class="btn" @click="$router.push({ name: 'UserTestResultsReport' })">
-              <h3 class="card-title"> Отчет о результатах пользовательских тестов и предпочтениях</h3>
-            </button>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body">
+              <button class="btn" @click="$router.push({ name: 'ProductUser' })">
+                <h3 class="card-title">Анализ уходовых средств клиента</h3>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+
+<!--gi-->
 <!--      <div class="col-md-4">-->
 <!--        <div class="card">-->
 <!--          <div class="card-body">-->

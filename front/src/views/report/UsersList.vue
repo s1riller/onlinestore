@@ -22,6 +22,7 @@
             {{ user.username }}
             {{ ageInfo(user.birth_date) }}
           </div>
+          <router-link :to="`/ProductUser/${user.id}`">Посмотреть статистику</router-link>
 
         </div>
         <div class="no-wrap">
@@ -85,8 +86,11 @@ export default {
           });
     },
     lastLoginInfo(lastLogin) {
-      const loginDate = parseISO(lastLogin);
-      return formatDistanceToNow(loginDate, {addSuffix: true, locale: ru}); // Используйте 'ru' для русского языка
+      if (lastLogin) {
+        const loginDate = parseISO(lastLogin);
+        return formatDistanceToNow(loginDate, { addSuffix: true, locale: ru });
+      }
+      return 'Дата последнего входа неизвестна';
     },
     ageInfo(date) {
       if (date) {
